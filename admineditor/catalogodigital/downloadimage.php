@@ -1,15 +1,4 @@
 <?php
-// Verificar credenciales de la sesión
-session_start();
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si no existen credenciales de la sesión
-    // Cerrar sesión
-    session_unset();
-    session_destroy();
-    // Redirigir al usuario a la página de inicio de sesión si no está autenticado
-    header("Location: ../login.php");
-    exit;
-}
-
 if (isset($_GET['file'])) { // Obtiene la ruta del archivo
     $file_path = $_GET['file']; // Obtiene la ruta del archivo
     if (file_exists($file_path)) { // Si el archivo existe procede a descargarlo
@@ -40,7 +29,7 @@ if (isset($_GET['file'])) { // Obtiene la ruta del archivo
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
         
             <!-- CSS Personalizado -->
-            <link rel="stylesheet" href="../css/adminStyles.css">
+            <link rel="stylesheet" href="../css/userStyles.css">
             
             <title>BiblioFore | Error 404</title>
         

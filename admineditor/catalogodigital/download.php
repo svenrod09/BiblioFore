@@ -14,7 +14,7 @@ if (isset($_GET['file'])) { // Obtiene la ruta del archivo
     $file_path = $_GET['file']; // Obtiene la ruta del archivo
     if (file_exists($file_path)) { // Si el archivo existe procede a descargarlo
         header('Content-Description: File Transfer');
-        header('Content-Type: text/csv');
+        header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename='.basename($file_path));
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');

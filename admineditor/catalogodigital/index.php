@@ -162,7 +162,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                                 <!-- Ver imagen (al hacer clic se envían a los modal los parámetros necesarios) -->
                                                 <a href="./<?php echo $row['imagen'] ?>" target="_blank" data-toggle="tooltip" title="Ver" class="link-dark tooltip-link"><i class="fas fa-eye fs-5 me-3"></i></a>
                                                 <!-- Descargar imagen (al hacer clic se envían a los modal los parámetros necesarios) -->
-                                                <a href="./download.php?file=<?php echo $row['imagen'] ?>" target="_blank" data-toggle="tooltip" title="Descargar" class="link-dark tooltip-link"><i class="fas fa-download fs-5 me-3"></i></a>
+                                                <a href="./downloadimage.php?file=<?php echo $row['imagen'] ?>" target="_blank" data-toggle="tooltip" title="Descargar" class="link-dark tooltip-link"><i class="fas fa-download fs-5 me-3"></i></a>
                                             </td>
                                             <td class="text-center">
                                                 <!-- Actualizar archivo (al hacer clic se envían a los modal los parámetros necesarios) -->

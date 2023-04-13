@@ -84,6 +84,6 @@ try {
     }
 } catch (PDOException $e) {
     // Si algo falla manda un mensaje con el error
-    echo '<script>alert("Error al enviar el archivo: " ' . $e->getMessage() . ')</script>';
+    echo '<script>console.log("Error al enviar el archivo: " ' . $e->getMessage() . ');</script>';
 }
 ?>

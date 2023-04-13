@@ -2,7 +2,7 @@
 // Datos para la conexión con la BD
 define('DB_HOST', 'localhost'); // Nombre del host del servidor de la BD
 define('DB_PORT', '5432'); // Puerto que utiliza el servidor de la BD
-define('DB_NAME', ''); // Nombre de la BD
+define('DB_NAME', 'bibliofore'); // Nombre de la BD
 define('DB_USER', ''); // Nombre de usuario de la BD
 define('DB_PASSWORD', ''); // Contraseña de la BD
 
@@ -20,7 +20,7 @@ try {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     // Si algo falla manda un mensaje con el error
-    echo '<script>"¡Error al conectar con la BD! Contacte al administrador. "' 
-    . $e->getMessage() . ')</script>';
+    echo '<script>console.log("¡Error al conectar con la BD! Causa: "' 
+    . $e->getMessage() . ');</script>'; // Imprime el error en la consola
 }
 ?>

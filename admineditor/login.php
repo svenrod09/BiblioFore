@@ -47,7 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (PDOException $e) {
         // Si algo falla manda un mensaje con el error
         echo '<script>alert("¡Error al intentar iniciar sesión! Contacte al administrador. "'
-            . $e->getMessage() . ')</script>';
+            . $e->getMessage() . ');</script>';
+        echo '<script>console.log("¡Error al intentar iniciar sesión! Contacte al administrador. "'
+            . $e->getMessage() . ');</script>'; // Imprime el mensaje en la consola
     }
 }
 ?>
@@ -185,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         const passwordInput = document.getElementById('password'); // Obtiene el id del input donde se ingresa la contraseña 
 
         // Al presionar el botón del ojo se revela la contraseña ingresada, al presionarlo de nuevo oculta la contraseña 
-        showPasswordButton.addEventListener('click', function() { 
+        showPasswordButton.addEventListener('click', function() {
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 showPasswordButton.classList.remove('fa-eye');

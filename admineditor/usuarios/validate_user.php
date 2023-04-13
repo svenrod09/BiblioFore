@@ -43,6 +43,6 @@ try {
     }
 } catch (PDOException $e) {
     // Si algo falla manda un mensaje con el error
-    echo '<script>alert("¡Error al intentar iniciar sesión! Contacte al administrador. "'
-        . $e->getMessage() . ')</script>';
+    echo '<script>console.log("¡Error al intentar iniciar sesión! Contacte al administrador. "'
+        . $e->getMessage() . ');</script>';
 }

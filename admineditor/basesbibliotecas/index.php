@@ -168,7 +168,8 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                     }
                                 } catch (PDOException $e) {
                                     // Si algo falla manda un mensaje con el error
-                                    echo '<script>alert("¡Error al mostrar los datos! Contacte al administrador. " ' . $e->getMessage() . ')</script>';
+                                    echo '<script>alert("¡Error al mostrar los datos! Contacte al administrador. " ' . $e->getMessage() . ');</script>';
+                                    echo '<script>console.log("¡Error al mostrar los datos! Contacte al administrador. " ' . $e->getMessage() . ');</script>';
                                 }
                                 ?>
                             </tbody>

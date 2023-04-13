@@ -30,6 +30,6 @@ try {
     }
 } catch (PDOException $e) {
     // Si algo falla manda un mensaje con el error
-    echo '<script>alert("¡Error! No se pudieron obtener los datos: " ' . $e->getMessage() . ')</script>';
+    echo '<script>console.log("¡Error! No se pudieron obtener los datos: " ' . $e->getMessage() . ');</script>';
 }
 ?>

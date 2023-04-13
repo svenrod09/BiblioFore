@@ -40,6 +40,6 @@ try {
     }
 } catch (PDOException $e) {
     // Si algo falla manda un mensaje con el error
-    echo '<script>alert("Error al insertar el registro: " ' . $e->getMessage() . ')</script>';
+    echo '<script>console.log("Error al insertar el registro: " ' . $e->getMessage() . ');</script>';
 }
 ?>

@@ -61,9 +61,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                         <i class="fas fa-university fs-4 fa-fw items-color"></i>
                         <span class="ms-2 d-none d-sm-inline fw-bold">Editoriales</span></a>
 
-                    <a href="../tipodocumento/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
+                    <a href="../categorias/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-file fs-4 fa-fw items-color"></i>
-                        <span class="ms-2 d-none d-sm-inline fw-bold">Tipos</span></a>
+                        <span class="ms-2 d-none d-sm-inline fw-bold">Categorías</span></a>
 
                     <a href="../catalogodigital/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-laptop fs-4 fa-fw items-color"></i>
@@ -117,7 +117,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                     <th scope="col" class="text-center">Título</th>
                                     <th scope="col" class="text-center">Descripción</th>
                                     <th scope="col" class="text-center">Autor</th>
-                                    <th scope="col" class="text-center">Tipo</th>
+                                    <th scope="col" class="text-center">Categoría</th>
                                     <th scope="col" class="text-center">Editorial</th>
                                     <th scope="col" class="text-center">Año</th>
                                     <th scope="col" class="text-center">Imagen</th>
@@ -213,14 +213,14 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="fw-bold" for="tipoC">Tipo de Documento:</label>
+                                            <label class="fw-bold" for="tipoC">Categoría:</label>
                                             <div class="input-group">
                                                 <select class="form-select" name="tipoC" id="tipoC">
-                                                    <option value="0">Seleccione un tipo de documento</option>
-                                                    <?php include('./select/tipos.php');  ?> <!-- Llena el select con el listado de datos obtenidos de la BD -->
+                                                    <option value="0">Seleccione una categoría</option>
+                                                    <?php include('./select/categorias.php');  ?> <!-- Llena el select con el listado de datos obtenidos de la BD -->
                                                 </select>
                                                 <span class="input-group-addon">
-                                                    <a href="../tipodocumento/index.php" class="link-dark"><i data-toggle="tooltip" title="Seleccione un tipo de documento. Si no encuentras el tipo que buscas, ingrésalo desde la sección de Tipos." class="fas fa-question-circle fs-5 ms-2 mt-2"></i></a>
+                                                    <a href="../categorias/index.php" class="link-dark"><i data-toggle="tooltip" title="Seleccione una categoría. Si no encuentras la categoría que buscas, ingrésala desde la sección de Categorías." class="fas fa-question-circle fs-5 ms-2 mt-2"></i></a>
                                                 </span>
                                             </div>
                                         </div>
@@ -293,14 +293,14 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="fw-bold" for="tipoE">Tipo de Documento:</label>
+                                            <label class="fw-bold" for="tipoE">Categoría:</label>
                                             <div class="input-group">
                                                 <select class="form-select" name="tipoE" id="tipoE">
-                                                    <option value="0">Seleccione un tipo de documento</option>
-                                                    <?php include('./select/tipos.php');  ?> <!-- Llena el select con el listado de datos obtenidos de la BD -->
+                                                    <option value="0">Seleccione una categoría</option>
+                                                    <?php include('./select/categorias.php');  ?> <!-- Llena el select con el listado de datos obtenidos de la BD -->
                                                 </select>
                                                 <span class="input-group-addon">
-                                                    <a href="../tipodocumento/index.php" class="link-dark"><i data-toggle="tooltip" title="Seleccione un tipo de documento. Si no encuentras el tipo que buscas, ingrésalo desde la sección de Tipos." class="fas fa-question-circle fs-5 ms-2 mt-2"></i></a>
+                                                    <a href="../categorias/index.php" class="link-dark"><i data-toggle="tooltip" title="Seleccione una categoría. Si no encuentras la categoría que buscas, ingrésala desde la sección de Categorías." class="fas fa-question-circle fs-5 ms-2 mt-2"></i></a>
                                                 </span>
                                             </div>
                                         </div>

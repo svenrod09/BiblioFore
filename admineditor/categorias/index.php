@@ -7,10 +7,10 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
     header("Location: ../login.php"); // Redirigir al usuario a la página de inicio de sesión si no está autenticado
     exit;
 } else {
-    // Si un usuario de tipo = 2 (Editor) intenta acceder aquí se le redireccionará a donde tiene permitido
-    if ($_SESSION['user_type'] == 2) {
-        $_SESSION['permission_alert'] = "No tiene permisos para acceder a este apartado."; // Envía un mensaje de alerta
-        header("Location: ./index.php"); // Redirección a la página de inicio
+    // Si un usuario de tipo = 2 (Editor) es redireccionado a este sitio muestra un mensaje de alerta
+    if (isset($_SESSION['permission_alert'])) {
+        echo "<script>alert('" . $_SESSION['permission_alert'] . "')</script>"; // Mostrar mensaje de alerta
+        unset($_SESSION['permission_alert']); // Eliminar la variable de sesión después de mostrar el mensaje de alerta
     }
 }
 ?>
@@ -34,7 +34,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../css/adminStyles.css">
 
-    <title>BiblioFore | Autores</title>
+    <title>BiblioFore | Categorías</title>
 
     <!-- Ícono de la pestaña -->
     <link rel="shortcut icon" href="https://erp.unacifor.edu.hn/img/logout.png">
@@ -44,8 +44,8 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <!-- Sidebar -->
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 theme-bg">
-                <div class="sticky-top d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+            <div class="sticky-top col-auto col-md-3 col-xl-2 px-sm-2 px-0 theme-bg">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="#" class="d-flex align-items-center pb-4 mb-md-0 me-md-auto text-white text-decoration-none">
                         <img src="https://erp.unacifor.edu.hn/img/logout.png" height="40px" width="40px" alt="UNACIFOR">
                         <span class="ms-2 fs-5 fw-bold d-none d-sm-inline">Biblioteca</span>
@@ -60,16 +60,16 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                         <span class="ms-2 d-none d-sm-inline fw-bold">Usuarios</span></a>
 
                     <a href="../autores/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
-                        <i class="fas fa-pen-fancy fs-4 fa-fw activo items-color"></i>
-                        <span class="ms-2 d-none d-sm-inline activo fw-bold">Autores</span></a>
+                        <i class="fas fa-pen-fancy fs-4 fa-fw items-color"></i>
+                        <span class="ms-2 d-none d-sm-inline fw-bold">Autores</span></a>
 
                     <a href="../editoriales/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-university fs-4 fa-fw items-color"></i>
                         <span class="ms-2 d-none d-sm-inline fw-bold">Editoriales</span></a>
 
                     <a href="../categorias/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
-                        <i class="fas fa-file fs-4 fa-fw items-color"></i>
-                        <span class="ms-2 d-none d-sm-inline fw-bold">Categorías</span></a>
+                        <i class="fas fa-file fs-4 fa-fw activo items-color"></i>
+                        <span class="ms-2 d-none d-sm-inline activo fw-bold">Categorías</span></a>
 
                     <a href="../catalogodigital/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-laptop fs-4 fa-fw items-color"></i>
@@ -100,15 +100,16 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                         <div class="row justify-content-center align-items-center">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <h1 class="text-center fw-bold">
-                                    <i class="fas fa-pen-fancy"></i>
-                                    Control de Autores
+                                    <i class="fas fa-file me-2"></i>Control de Categorías
                                 </h1>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Botón para editar los registros que están habilitados -->
-                    <a href="./index.php" class="btn btn-primary mb-3"><i class="fas fa-eye me-2"></i>Editar Activos</a>
+                    <!-- Botón para desplegar form de nuevo registro -->
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#nuevoModal" class="btn btn-success mb-3"><i class="fas fa-plus me-2"></i>Nuevo</a>
+                    <!-- Botón para editar los registros que han sido deshabilitados -->
+                    <a href="./inactive.php" class="btn btn-primary mb-3"><i class="fas fa-low-vision me-2"></i>Editar Inactivos</a>
 
                     <!-- Alerta para saber si se ingresaron o no los datos a la BD -->
                     <div class="alert" role="alert" id="alertMessage" style="display:none;">
@@ -121,9 +122,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                 <tr class="text-light">
                                     <!-- Encabezados de la tabla -->
                                     <th scope="col" class="text-center">ID</th>
-                                    <th scope="col" class="text-center">Nombre</th>
-                                    <th scope="col" class="text-center">Apellido</th>
-                                    <th scope="col" class="text-center">Nacionalidad</th>
+                                    <th scope="col" class="text-center">Categoría</th>
                                     <th scope="col" class="text-center">Acción</th>
                                 </tr>
                             </thead>
@@ -137,7 +136,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                     include '../config.php';
 
                                     // Consulta de selección PostgreSQL
-                                    $query = "SELECT * FROM autores WHERE disponible = false";
+                                    $query = "SELECT * FROM tipodocumento WHERE disponible = true";
 
                                     // Preparar consulta
                                     $stmt = $db->prepare($query);
@@ -150,13 +149,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                         <tr>
                                             <th class="text-center"><?php echo $row['id'] ?></th>
                                             <th class="text-center"><?php echo $row['nombre'] ?></th>
-                                            <th class="text-center"><?php echo $row['apellido'] ?></th>
-                                            <th class="text-center"><?php echo $row['paisdenacimiento'] ?></th>
                                             <td class="text-center">
-                                                <!-- Restaurar (al hacer clic se envían a los modal los parámetros necesarios) -->
-                                                <a href="#" data-toggle="tooltip" title="Restaurar" data-bs-toggle="modal" data-bs-target="#restaurarModal" data-id="<?php echo $row['id'] ?>" data-last="<?php echo $row['apellido'] ?>" data-name="<?php echo $row['nombre'] ?>" class="link-dark open-restore tooltip-link"><i class="fas fa-redo-alt fs-5 me-3"></i></a>
+                                                <!-- Editar (al hacer clic se envían a los modal los parámetros necesarios) -->
+                                                <a href="#" data-toggle="tooltip" title="Editar" data-bs-toggle="modal" data-bs-target="#editarModal" data-id="<?php echo $row['id'] ?>" data-name="<?php echo $row['nombre'] ?>" class="link-dark open-edit tooltip-link"><i class="fas fa-edit fs-5 me-3"></i></a>
                                                 <!-- Eliminar (al hacer clic se envían a los modal los parámetros necesarios) -->
-                                                <a href="#" data-toggle="tooltip" title="Eliminar" data-bs-toggle="modal" data-bs-target="#eliminarModal" data-id="<?php echo $row['id'] ?>" data-last="<?php echo $row['apellido'] ?>" data-name="<?php echo $row['nombre'] ?>" class="link-dark open-delete tooltip-link"><i class="fas fa-trash fs-5 me-3"></i></a>
+                                                <a href="#" data-toggle="tooltip" title="Eliminar" data-bs-toggle="modal" data-bs-target="#eliminarModal" data-id="<?php echo $row['id'] ?>" data-name="<?php echo $row['nombre'] ?>" class="link-dark open-delete tooltip-link"><i class="fas fa-trash fs-5 me-3"></i></a>
                                             </td>
                                         </tr>
                                 <?php
@@ -171,21 +168,57 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                         </table>
                     </div>
 
-                    <!-- Modal para Restaurar Registro -->
-                    <div class="modal fade" id="restaurarModal" tabindex="-1" aria-hidden="true">
+                    <!-- Modal para Nuevo Registro -->
+                    <div class="modal fade" id="nuevoModal" tabindex="-1" aria-labelledby="nuevoModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <i class="fas fa-redo-alt fs-5 me-2"></i>
-                                    <h5 class="modal-title fw-bold">Restaurar Autor:</h5>
+                                    <i class="fas fa-plus-square fs-5 me-2"></i>
+                                    <h5 class="modal-title fw-bold" id="nuevoModalLabel">Nueva Categoría:</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    ¿Realmente deseas restaurar el autor <strong id="name-restore"></strong>?
+                                    <form id="nuevoRegistroForm">
+                                        <div class="mb-3">
+                                            <label class="fw-bold" for="tipoC">Nombre de la Categoría:</label>
+                                            <input type="text" class="form-control input-style input-valid" title="Ingrese el nombre de la categoría (Ejemplo: Revista, Libro, etc.)." name="tipoC" id="tipoC" placeholder="Categoría">
+                                        </div>
+                                        <div class="justify-content-center text-center">
+                                            <p id="errormsgC" class="d-none text-danger fw-bold">Revise los datos ingresados.</p>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle me-2"></i></i>Cancelar</button>
-                                    <button type="button" id="restore" class="btn btn-dark"><i class="fas fa-redo-alt me-2"></i>Restaurar</button>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle me-2"></i></i>Cerrar</button>
+                                    <button type="button" id="submit" class="btn btn-dark" disabled><i class="fas fa-save me-2"></i>Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal para Editar Registro -->
+                    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <i class="fas fa-edit fs-5 me-2"></i>
+                                    <h5 class="modal-title fw-bold">Editar Categoría:</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editarRegistroForm">
+                                        <div class="mb-3">
+                                            <label class="fw-bold" for="tipoE">Nombre de la Categoría:</label>
+                                            <input type="text" class="form-control input-style" title="Ingrese el nombre de la categoría (Ejemplo: Revista, Libro, etc.)." name="tipoE" id="tipoE" placeholder="Categoría">
+                                        </div>
+                                        <div class="justify-content-center text-center">
+                                            <p id="errormsgE" class="d-none text-danger fw-bold errormsg">Revise los datos ingresados.</p>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle me-2"></i></i>Cerrar</button>
+                                    <button type="button" id="edit" class="btn btn-dark"><i class="fas fa-save me-2"></i>Guardar</button>
                                 </div>
                             </div>
                         </div>
@@ -197,11 +230,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <i class="fas fa-trash-alt fs-5 me-2"></i>
-                                    <h5 class="modal-title fw-bold">Eliminar Autor:</h5>
+                                    <h5 class="modal-title fw-bold">Eliminar Categoría:</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    ¿Realmente deseas eliminar de forma permanente el autor <strong id="name-delete"></strong>?
+                                    ¿Realmente deseas eliminar la categoría <strong id="name-delete"></strong>?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal"><i class="fas fa-times-circle me-2"></i></i>Cancelar</button>
@@ -238,37 +271,122 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                 }
             });
 
-            // Restablecer Registro BD
-            $('.open-restore').click(function() {
+            // Obtener mensajes de error, inputs y botón de guardar
+            var inputTipoC = document.getElementById('tipoC');
+            var inputTipoE = document.getElementById('tipoE');
+            var btnGuardar = document.getElementById('submit');
+            var btnEditar = document.getElementById('edit');
+            var msgErrorC = document.getElementById('errormsgC');
+            var msgErrorE = document.getElementById('errormsgE');
+
+            // Validar inputs de modal guardar al realizar cambios en ellos
+            inputTipoC.addEventListener('input', function() {
+                // Validar que el input no esté vacío
+                if (inputTipoC.value == '') {
+                    // El input no es válido, mostrar un mensaje de error
+                    msgErrorC.classList.remove("d-none");
+                    btnGuardar.setAttribute("disabled", "");
+                } else {
+                    // El input es válido
+                    msgErrorC.classList.add("d-none");
+                    btnGuardar.removeAttribute("disabled"); // Activar botón para enviar datos
+                }
+            });
+
+            // Validar inputs de modal editar al realizar cambios en ellos
+            inputTipoE.addEventListener('input', function() {
+                // Validar que el input no esté vacío
+                if (inputTipoE.value == '') {
+                    // El input no es válido, mostrar un mensaje de error
+                    msgErrorE.classList.remove("d-none");
+                    btnEditar.setAttribute("disabled", "");
+                } else {
+                    // El input es válido
+                    msgErrorE.classList.add("d-none");
+                    btnEditar.removeAttribute("disabled"); // Activar botón para enviar datos
+                }
+            });
+
+            // Nuevo Registro BD
+            $("#submit").click(function() {
+                // Obtener valores de los input
+                var nombre = $("#tipoC").val();
+
+                $.ajax({ // Petición AJAX
+                    type: "POST", // Método POST
+                    url: "create.php", // Archivo que contiene la consulta de inserción
+                    data: { // Enviar datos
+                        nombre: nombre
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) { // Inserción correcta
+                            $("#nuevoModal").modal("hide"); // Ocultar Modal
+                            // Enviar alerta 
+                            $("#alertMessage").removeClass("alert-danger");
+                            $("#alertMessage").html("¡Correcto! Se añadió el registro correctamente :D").addClass("alert-success").fadeIn();
+                            resetearInput();
+                            setTimeout(function() {
+                                $("#alertMessage").fadeOut();
+                                refrescarTabla();
+                            }, 2000);
+                        } else { // Inserción fallida
+                            $("#nuevoModal").modal("hide"); // Ocultar Modal
+                            // Enviar alerta
+                            $("#alertMessage").html("¡Error! No se pudo añadir el registro :(").addClass("alert-danger").fadeIn();
+                            resetearInput();
+                            setTimeout(function() {
+                                $("#alertMessage").fadeOut();
+                            }, 2000);
+                        }
+                    },
+                    error: function() {
+                        $("#nuevoModal").modal("hide"); // Ocultar Modal
+                        // Enviar alerta 
+                        $("#alertMessage").html("¡Error! No se pudo procesar la solicitud :(").addClass("alert-danger").fadeIn();
+                        resetearInput();
+                        setTimeout(function() {
+                            $("#alertMessage").fadeOut();
+                        }, 2000);
+                    }
+                });
+
+            });
+
+            // Editar Registro BD
+            $('.open-edit').click(function() {
                 // Obtener valores 
                 var id = $(this).data('id');
-                var last = $(this).data('last')
-                var nombre = $(this).data('name');
-                $("#name-restore").html(nombre + ' ' + last);
+                var name = $(this).data('name');
+                $("#tipoE").val(name);
 
-                // Confirmar restauración
-                $('#restore').click(function() {
+                $('#edit').click(function() {
+                    // Asignar valores 
+                    var nombre = $("#tipoE").val();
                     $.ajax({ // Petición AJAX
                         type: "POST", // Método POST
-                        url: "restore.php", // Archivo que contiene la consulta de actualización
+                        url: "update.php", // Archivo que contiene la consulta de actualización
                         data: { // Enviar datos
-                            id: id
+                            id: id,
+                            nombre: nombre
                         },
                         dataType: 'json',
                         success: function(response) {
-                            if (response.success) { // Restauración correcta
-                                $("#restaurarModal").modal("hide"); // Ocultar Modal
+                            if (response.success) { // Actualización correcta
+                                $("#editarModal").modal("hide"); // Ocultar Modal
                                 // Enviar alerta
                                 $("#alertMessage").removeClass("alert-danger");
-                                $("#alertMessage").html("¡Correcto! Se restableció el registro correctamente :D").addClass("alert-success").fadeIn();
+                                $("#alertMessage").html("¡Correcto! Se actualizó el registro correctamente :D").addClass("alert-success").fadeIn();
+                                resetearInput();
                                 setTimeout(function() {
                                     $("#alertMessage").fadeOut();
                                     refrescarTabla();
                                 }, 2000);
                             } else { // Actualización fallida
-                                $("#restaurarModal").modal("hide"); // Ocultar Modal
+                                $("#editarModal").modal("hide"); // Ocultar Modal
                                 // Enviar alerta
-                                $("#alertMessage").html("¡Error! No se pudo restaurar el registro :(").addClass("alert-danger").fadeIn();
+                                $("#alertMessage").html("¡Error! No se pudo actualizar el registro :(").addClass("alert-danger").fadeIn();
+                                resetearInput();
                                 setTimeout(function() {
                                     $("#alertMessage").fadeOut();
                                 }, 2000);
@@ -278,6 +396,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                             // Enviar alerta 
                             console.log(errorThrown);
                             $("#alertMessage").html("¡Error! No se pudo procesar la solicitud :(").addClass("alert-danger").fadeIn();
+                            resetearInput();
                             setTimeout(function() {
                                 $("#alertMessage").fadeOut();
                             }, 2000);
@@ -290,15 +409,14 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
             $('.open-delete').click(function() {
                 // Obtener valores 
                 var id = $(this).data('id');
-                var last = $(this).data('last');
                 var nombre = $(this).data('name');
-                $("#name-delete").html(nombre + ' ' + last);
+                $("#name-delete").html(nombre);
 
                 // Confirmar eliminación
                 $('#delete').click(function() {
                     $.ajax({ // Petición AJAX
                         type: "POST", // Método POST
-                        url: "delete.php", // Archivo que contiene la consulta de eliminación
+                        url: "softdelete.php", // Archivo que contiene la consulta de eliminación
                         data: { // Enviar datos
                             id: id
                         },
@@ -337,6 +455,12 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
             // Función para actualizar los datos de una tabla después de una consulta
             function refrescarTabla() {
                 location.reload();
+            }
+
+            // Función para resetear los valores de los input
+            function resetearInput() {
+                $("#tipoC").val('');
+                $("#tipoE").val('');
             }
         });
     </script>

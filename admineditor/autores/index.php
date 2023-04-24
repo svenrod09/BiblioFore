@@ -67,9 +67,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                         <i class="fas fa-university fs-4 fa-fw items-color"></i>
                         <span class="ms-2 d-none d-sm-inline fw-bold">Editoriales</span></a>
 
-                    <a href="../tipodocumento/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
+                    <a href="../categorias/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-file fs-4 fa-fw items-color"></i>
-                        <span class="ms-2 d-none d-sm-inline fw-bold">Tipos</span></a>
+                        <span class="ms-2 d-none d-sm-inline fw-bold">Categorías</span></a>
 
                     <a href="../catalogodigital/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-laptop fs-4 fa-fw items-color"></i>

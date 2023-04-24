@@ -34,7 +34,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="../css/adminStyles.css">
 
-    <title>BiblioFore | Autores</title>
+    <title>BiblioFore | Categorías</title>
 
     <!-- Ícono de la pestaña -->
     <link rel="shortcut icon" href="https://erp.unacifor.edu.hn/img/logout.png">
@@ -60,16 +60,16 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                         <span class="ms-2 d-none d-sm-inline fw-bold">Usuarios</span></a>
 
                     <a href="../autores/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
-                        <i class="fas fa-pen-fancy fs-4 fa-fw activo items-color"></i>
-                        <span class="ms-2 d-none d-sm-inline activo fw-bold">Autores</span></a>
+                        <i class="fas fa-pen-fancy fs-4 fa-fw items-color"></i>
+                        <span class="ms-2 d-none d-sm-inline fw-bold">Autores</span></a>
 
                     <a href="../editoriales/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-university fs-4 fa-fw items-color"></i>
                         <span class="ms-2 d-none d-sm-inline fw-bold">Editoriales</span></a>
 
                     <a href="../categorias/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
-                        <i class="fas fa-file fs-4 fa-fw items-color"></i>
-                        <span class="ms-2 d-none d-sm-inline fw-bold">Categorías</span></a>
+                        <i class="fas fa-file fs-4 fa-fw activo items-color"></i>
+                        <span class="ms-2 d-none d-sm-inline activo fw-bold">Categorías</span></a>
 
                     <a href="../catalogodigital/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-laptop fs-4 fa-fw items-color"></i>
@@ -100,8 +100,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                         <div class="row justify-content-center align-items-center">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <h1 class="text-center fw-bold">
-                                    <i class="fas fa-pen-fancy"></i>
-                                    Control de Autores
+                                    <i class="fas fa-file me-2"></i>Control de Categorías
                                 </h1>
                             </div>
                         </div>
@@ -121,9 +120,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                 <tr class="text-light">
                                     <!-- Encabezados de la tabla -->
                                     <th scope="col" class="text-center">ID</th>
-                                    <th scope="col" class="text-center">Nombre</th>
-                                    <th scope="col" class="text-center">Apellido</th>
-                                    <th scope="col" class="text-center">Nacionalidad</th>
+                                    <th scope="col" class="text-center">Categoría</th>
                                     <th scope="col" class="text-center">Acción</th>
                                 </tr>
                             </thead>
@@ -137,7 +134,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                     include '../config.php';
 
                                     // Consulta de selección PostgreSQL
-                                    $query = "SELECT * FROM autores WHERE disponible = false";
+                                    $query = "SELECT * FROM tipodocumento WHERE disponible = false";
 
                                     // Preparar consulta
                                     $stmt = $db->prepare($query);
@@ -150,13 +147,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                                         <tr>
                                             <th class="text-center"><?php echo $row['id'] ?></th>
                                             <th class="text-center"><?php echo $row['nombre'] ?></th>
-                                            <th class="text-center"><?php echo $row['apellido'] ?></th>
-                                            <th class="text-center"><?php echo $row['paisdenacimiento'] ?></th>
                                             <td class="text-center">
                                                 <!-- Restaurar (al hacer clic se envían a los modal los parámetros necesarios) -->
-                                                <a href="#" data-toggle="tooltip" title="Restaurar" data-bs-toggle="modal" data-bs-target="#restaurarModal" data-id="<?php echo $row['id'] ?>" data-last="<?php echo $row['apellido'] ?>" data-name="<?php echo $row['nombre'] ?>" class="link-dark open-restore tooltip-link"><i class="fas fa-redo-alt fs-5 me-3"></i></a>
+                                                <a href="#" data-toggle="tooltip" title="Restaurar" data-bs-toggle="modal" data-bs-target="#restaurarModal" data-id="<?php echo $row['id'] ?>" data-name="<?php echo $row['nombre'] ?>" class="link-dark open-restore tooltip-link"><i class="fas fa-redo-alt fs-5 me-3"></i></a>
                                                 <!-- Eliminar (al hacer clic se envían a los modal los parámetros necesarios) -->
-                                                <a href="#" data-toggle="tooltip" title="Eliminar" data-bs-toggle="modal" data-bs-target="#eliminarModal" data-id="<?php echo $row['id'] ?>" data-last="<?php echo $row['apellido'] ?>" data-name="<?php echo $row['nombre'] ?>" class="link-dark open-delete tooltip-link"><i class="fas fa-trash fs-5 me-3"></i></a>
+                                                <a href="#" data-toggle="tooltip" title="Eliminar" data-bs-toggle="modal" data-bs-target="#eliminarModal" data-id="<?php echo $row['id'] ?>" data-name="<?php echo $row['nombre'] ?>" class="link-dark open-delete tooltip-link"><i class="fas fa-trash fs-5 me-3"></i></a>
                                             </td>
                                         </tr>
                                 <?php
@@ -177,11 +172,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <i class="fas fa-redo-alt fs-5 me-2"></i>
-                                    <h5 class="modal-title fw-bold">Restaurar Autor:</h5>
+                                    <h5 class="modal-title fw-bold">Restaurar Categoría:</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    ¿Realmente deseas restaurar el autor <strong id="name-restore"></strong>?
+                                    ¿Realmente deseas restaurar la categoría <strong id="name-restore"></strong>?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle me-2"></i></i>Cancelar</button>
@@ -197,11 +192,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <i class="fas fa-trash-alt fs-5 me-2"></i>
-                                    <h5 class="modal-title fw-bold">Eliminar Autor:</h5>
+                                    <h5 class="modal-title fw-bold">Eliminar Categoría:</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    ¿Realmente deseas eliminar de forma permanente el autor <strong id="name-delete"></strong>?
+                                    ¿Realmente deseas eliminar de forma permanente la categoría <strong id="name-delete"></strong>?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal"><i class="fas fa-times-circle me-2"></i></i>Cancelar</button>
@@ -242,9 +237,8 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
             $('.open-restore').click(function() {
                 // Obtener valores 
                 var id = $(this).data('id');
-                var last = $(this).data('last')
                 var nombre = $(this).data('name');
-                $("#name-restore").html(nombre + ' ' + last);
+                $("#name-restore").html(nombre);
 
                 // Confirmar restauración
                 $('#restore').click(function() {
@@ -290,9 +284,8 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
             $('.open-delete').click(function() {
                 // Obtener valores 
                 var id = $(this).data('id');
-                var last = $(this).data('last');
                 var nombre = $(this).data('name');
-                $("#name-delete").html(nombre + ' ' + last);
+                $("#name-delete").html(nombre);
 
                 // Confirmar eliminación
                 $('#delete').click(function() {

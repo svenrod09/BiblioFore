@@ -64,9 +64,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                         <i class="fas fa-university fs-4 fa-fw items-color"></i>
                         <span class="ms-2 d-none d-sm-inline fw-bold">Editoriales</span></a>
 
-                    <a href="./tipodocumento/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
+                    <a href="./categorias/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-file fs-4 fa-fw items-color"></i>
-                        <span class="ms-2 d-none d-sm-inline fw-bold">Tipos</span></a>
+                        <span class="ms-2 d-none d-sm-inline fw-bold">Categorías</span></a>
 
                     <a href="./catalogodigital/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-laptop fs-4 fa-fw items-color"></i>
@@ -143,12 +143,12 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) { // Si n
                             </a>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                            <a href="./tipodocumento/index.php" class="text-decoration-none">
+                            <a href="./categorias/index.php" class="text-decoration-none">
                                 <div class="card l-bg-orange-dark">
                                     <div class="card-statistic-3 p-4">
                                         <div class="card-icon card-icon-large"><i class="fas fa-file"></i></div>
                                         <div class="mb-4">
-                                            <h5 class="card-title fw-bold mb-0">Control de Tipos de Documento</h5>
+                                            <h5 class="card-title fw-bold mb-0">Control de Categorías</h5>
                                         </div>
                                     </div>
                                 </div>

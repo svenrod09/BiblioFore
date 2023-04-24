@@ -8,7 +8,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 } else {
     // Si un usuario de tipo = 2 (Editor) intenta acceder aquí se le redireccionará a donde tiene permitido
-    if($_SESSION['user_type'] == 2) {
+    if ($_SESSION['user_type'] == 2) {
         $_SESSION['permission_alert'] = "No tiene permisos para acceder a este apartado."; // Envía un mensaje de alerta    
         header("Location: ./index.php"); // Redirección a la página de inicio
     }
@@ -67,9 +67,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                         <i class="fas fa-university fs-4 fa-fw activo items-color"></i>
                         <span class="ms-2 d-none d-sm-inline activo fw-bold">Editoriales</span></a>
 
-                    <a href="../tipodocumento/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
+                    <a href="../categorias/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-file fs-4 fa-fw items-color"></i>
-                        <span class="ms-2 d-none d-sm-inline fw-bold">Tipos</span></a>
+                        <span class="ms-2 d-none d-sm-inline fw-bold">Categorías</span></a>
 
                     <a href="../catalogodigital/index.php" class="d-flex align-items-center pb-4 text-decoration-none items-color">
                         <i class="fas fa-laptop fs-4 fa-fw items-color"></i>
@@ -99,7 +99,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                     <div class="container py-2">
                         <div class="row justify-content-center align-items-center">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <h1 class="text-center fw-bold">Control de Editoriales</h1>
+                                <h1 class="text-center fw-bold">
+                                    <i class="fas fa-university me-2"></i>Control de Editoriales
+                                </h1>
                             </div>
                         </div>
                     </div>
